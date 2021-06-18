@@ -53,14 +53,30 @@ function TakePicture() {
 
   
   const [result,setResult] = useState([]);
+  // const onCapture = (imageData) => {
+  //   // read as webP
+  //   setImgSrc(imageData.webP);
+  //   // read as file
+  //   setImgFile(imageData.file);
+  //   // Unmount component to stop the video track and release camera
+  //   setShowImgCapture(false);
+  // };
+
   const onCapture = (imageData) => {
-    // read as webP
-    setImgSrc(imageData.webP);
-    // read as file
-    setImgFile(imageData.file);
-    // Unmount component to stop the video track and release camera
-    setShowImgCapture(false);
-  };
+    
+    navigator.mediaDevices
+      .getUserMedia({ video: {facingMode:"environment"}, audio: false })
+      .then((imgData) => {
+        //videoRef.current.play();
+        setImgSrc(imageData.webP);
+        // read as file
+        setImgFile(imageData.file);
+        // Unmount component to stop the video track and release camera
+        setShowImgCapture(false);
+      });
+  }
+
+
   const onError = useCallback((error) => {
     console.log(error);
   }, []);
